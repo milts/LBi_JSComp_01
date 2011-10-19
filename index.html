@@ -20,8 +20,12 @@
     <script type="text/javascript" src="js/easeljs/utils/Ticker.js"></script>
     <!-- End EaselJS Imports -->
 
+    <!-- OPEN PROJECT IN WEBSTORM FOR EASY EDITING -->
+    <!-- http://www.jetbrains.com/webstorm/ -->
+
     <script type="text/javascript">
 
+        var canvas;
         var stage;
 
         document.onkeyup    = handleKeyUp;
@@ -31,7 +35,11 @@
             canvas  =   document.getElementById("myCanvas");
             stage   =   new Stage(canvas);
 
+            canvas.onclick = handleCanvasClick;
+        }
 
+        function handleCanvasClick() {
+            
         }
 
         function handleKeyUp() {
