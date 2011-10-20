@@ -5,6 +5,8 @@
 
     <title>Front End Cannon</title>
 
+    <script src="http://code.jquery.com/jquery-1.5.min.js"></script>
+
     <!-- Import EaselJS Framework -->
     <script type="text/javascript" src="js/easeljs/utils/UID.js"></script>
     <script type="text/javascript" src="js/easeljs/display/SpriteSheet.js"></script>
@@ -15,7 +17,7 @@
     <script type="text/javascript" src="js/easeljs/display/Container.js"></script>
     <script type="text/javascript" src="js/easeljs/display/Stage.js"></script>
     <script type="text/javascript" src="js/easeljs/display/Graphics.js"></script>
-    <script type="text/javascript" src="js/easeljs/display/Shape.js"></script>
+    <script type="text/javascript" src="js/easeljs/display/Bitmap.js"></script>
     <script type="text/javascript" src="js/easeljs/display/Text.js"></script>
     <script type="text/javascript" src="js/easeljs/utils/Ticker.js"></script>
     <!-- End EaselJS Imports -->
@@ -23,20 +25,144 @@
     <!-- OPEN PROJECT IN WEBSTORM FOR EASY EDITING -->
     <!-- http://www.jetbrains.com/webstorm/ -->
 
+    <script type="text/javascript" src="js/Enemy.js"></script>
+
     <script type="text/javascript">
+
+        var TIME_TO_NEXT_ENEMY = 120;
+        var DIFFICULTY = 3;
+
+        var currentFrame = 0;
 
         var canvas;
         var stage;
 
-        document.onkeyup    = handleKeyUp;
+        var enemyImage;
+
+        var scoreField;
+
+        var enemyArray;
+        var bulletArray;
+
+        var isAlive;
+
+        var timeToNextEnemy;
+
+        //handle keystrokes!
+        document.onkeyup      = handleKeyUp;
         document.onkeydown  = handleKeyDown;
 
         function init() {
             canvas  =   document.getElementById("myCanvas");
             stage   =   new Stage(canvas);
 
-            canvas.onclick = handleCanvasClick;
+            scoreField = new Text("0", "bold 12px Arial", "#FFFFFF");
+            scoreField.textAlign = "right";
+            scoreField.x = canvas.width - 10;
+            scoreField.y = 22;
+
+            initImages();
         }
+
+        function initImages()
+        {
+            $(function() {
+                enemyImage = new Image();
+                enemyImage.src = "img/enemy.png";
+
+                $(enemyImage).load(function()
+                {
+                    watchRestart();
+                });
+            });
+        }
+
+        function watchRestart()
+        {
+            //watch for clicks
+            stage.update(); 	//update the stage to show text
+            canvas.onclick = handleClick;
+        }
+
+        function handleClick()
+        {
+            canvas.onclick = null;
+            restart();
+        }
+
+        function restart()
+        {
+            //hide objects on stage and add score
+            stage.removeAllChildren();
+            scoreField.text = (0).toString();
+            stage.addChild(scoreField);
+
+            //create new arrays
+            enemyArray =   new Array();
+            bulletArray =    new Array();
+
+            //player
+            isAlive = true;
+
+            //time until attacks
+            timeToNextEnemy = TIME_TO_NEXT_ENEMY;
+            nextEnemy = 0;
+
+            //start game ticker
+            Ticker.addListener(window);
+        }
+
+        <!-- main game loop -->
+
+        function tick()
+        {
+            if(nextEnemy <= 0)
+            {
+                if(isAlive)
+                {
+                    timeToNextEnemy -= DIFFICULTY;	//reduce spaceRock spacing slowly to increase difficulty with time
+                    var index = getEnemy();
+                    //enemyArray[index].floatOnScreen(canvas.width, canvas.height);
+                    nextEnemy = timeToNextEnemy + timeToNextEnemy*Math.random();
+                }
+            } else {
+                nextEnemy--;
+            }
+
+            stage.update();
+        }
+
+        function getEnemy()
+        {
+            var i = 0;
+            var len = enemyArray.length;
+
+            //pooling approach
+            while(i <= len)
+            {
+                if( !enemyArray[i] )
+                {
+                    enemyArray[i] = new Enemy(enemyImage);
+                    break;
+                } else if(!enemyArray[i].active) {
+                    enemyArray[i].activate();
+                    break;
+                } else {
+                    i++;
+                }
+            }
+
+
+            if(len == 0) {
+                enemyArray[0] = new Enemy(enemyImage);
+            }
+
+            stage.addChild(enemyArray[i]);
+
+            return i;
+        }
+
+        <!-- events and such -->
 
         function handleCanvasClick() {
             
@@ -57,5 +183,9 @@
 	<div class="canvasHolder" style="background-color:#000000; height:600px; width:980px; position:relative; float:left;">
 		<canvas style="position:absolute; float:left" id="myCanvas" width="980px" height="600px"></canvas>
 	</div>
+
+    <!--<div style="display:none;">-->
+        <!--<img src="img/enemy.png" id="enemyImage"/>-->
+    <!--</div>-->
 </body>
 </html>
