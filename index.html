@@ -10,6 +10,7 @@
     <!-- Import EaselJS Framework -->
     <script type="text/javascript" src="js/easeljs/utils/UID.js"></script>
     <script type="text/javascript" src="js/easeljs/display/SpriteSheet.js"></script>
+    <script type="text/javascript" src="js/easeljs/display/SpriteSheetUtils.js"></script>
     <script type="text/javascript" src="js/easeljs/display/Shadow.js"></script>
     <script type="text/javascript" src="js/easeljs/geom/Matrix2D.js"></script>
     <script type="text/javascript" src="js/easeljs/events/MouseEvent.js"></script>
@@ -18,6 +19,7 @@
     <script type="text/javascript" src="js/easeljs/display/Stage.js"></script>
     <script type="text/javascript" src="js/easeljs/display/Graphics.js"></script>
     <script type="text/javascript" src="js/easeljs/display/Bitmap.js"></script>
+	<script type="text/javascript" src="js/easeljs/display/BitmapSequence.js"></script>
     <script type="text/javascript" src="js/easeljs/display/Text.js"></script>
     <script type="text/javascript" src="js/easeljs/utils/Ticker.js"></script>
     <!-- End EaselJS Imports -->
@@ -29,10 +31,9 @@
 
     <script type="text/javascript">
 
-//forked test
 
-        var TIME_TO_NEXT_ENEMY = 120;
-        var DIFFICULTY = 3;
+        var TIME_TO_NEXT_ENEMY = 25;
+        var DIFFICULTY = 0.95;
 
         var currentFrame = 0;
 
@@ -40,6 +41,7 @@
         var stage;
 
         var enemyImage;
+        var enemySpriteSheet;
 
         var scoreField;
 
@@ -70,12 +72,9 @@
         {
             $(function() {
                 enemyImage = new Image();
+				enemyImage.onload = spriteSheetLoaded;
                 enemyImage.src = "img/enemy.png";
 
-                $(enemyImage).load(function()
-                {
-                    watchRestart();
-                });
             });
         }
 
@@ -89,6 +88,12 @@
         function handleClick()
         {
             canvas.onclick = null;
+            restart();
+        }
+
+        function spriteSheetLoaded()
+        {
+            enemySpriteSheet = new SpriteSheet( enemyImage, 100, 100)
             restart();
         }
 
@@ -122,8 +127,8 @@
             {
                 if(isAlive)
                 {
-                    timeToNextEnemy -= DIFFICULTY;	//reduce spaceRock spacing slowly to increase difficulty with time
-                    var index = getEnemy();
+                    timeToNextEnemy *= DIFFICULTY;	//reduce spaceRock spacing slowly to increase difficulty with time
+                    getEnemy();
                     //enemyArray[index].floatOnScreen(canvas.width, canvas.height);
                     nextEnemy = timeToNextEnemy + timeToNextEnemy*Math.random();
                 }
@@ -140,11 +145,12 @@
             var len = enemyArray.length;
 
             //pooling approach
-            while(i <= len)
+
+           while(i <= len)
             {
                 if( !enemyArray[i] )
                 {
-                    enemyArray[i] = new Enemy(enemyImage);
+                    enemyArray[i] = new Enemy( enemySpriteSheet );
                     break;
                 } else if(!enemyArray[i].active) {
                     enemyArray[i].activate();
@@ -154,15 +160,37 @@
                 }
             }
 
-
             if(len == 0) {
-                enemyArray[0] = new Enemy(enemyImage);
+                enemyArray[0] = new Enemy( enemySpriteSheet );
             }
 
             stage.addChild(enemyArray[i]);
 
-            return i;
+//            return enemyArray[i];
         }
+
+        function killEnemy( enemy )
+        {
+            var i = 0;
+            var len = enemyArray.length;
+
+            //pooling approach
+
+           while(i <= len)
+           {
+               if( enemyArray[i] === enemy )
+               {
+                   stage.removeChild( enemy );
+                   enemy.tick = null;
+                   enemyArray.splice(i,1);
+                   return;
+               }
+               i++;
+           }
+
+        }
+
+
 
         <!-- events and such -->
 

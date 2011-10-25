@@ -23,19 +23,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="86" selection-start="881" selection-end="881" vertical-scroll-proportion="0.27075812">
+            <state line="34" column="35" selection-start="1812" selection-end="1812" vertical-scroll-proportion="-5.75">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Enemy.js" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Enemy.js" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/Enemy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="42" selection-start="570" selection-end="570" vertical-scroll-proportion="-19.038462">
+            <state line="53" column="47" selection-start="1138" selection-end="1138" vertical-scroll-proportion="0.60471976">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Container.js" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/easeljs/display/Container.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="160" column="20" selection-start="6125" selection-end="6125" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -83,6 +92,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -91,46 +101,13 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="LBi_JSComp_01" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LBi_JSComp_01" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LBi_JSComp_01" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LBi_JSComp_01" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="LBi_JSComp_01" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="js" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="easeljs" />
+              <option name="myItemId" value="LBi_JSComp_forked" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="Favorites" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -188,7 +165,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="566" y="121" width="1604" height="1057" extended-state="0" />
+    <frame x="643" y="194" width="1525" height="1164" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -196,7 +173,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25209004" sideWeight="0.9893504" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25813007" sideWeight="0.99808794" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3997195" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -259,21 +236,33 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/easeljs/display/Bitmap.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="0" selection-start="1736" selection-end="1736" vertical-scroll-proportion="0.2967033">
+        <state line="45" column="0" selection-start="1736" selection-end="1736" vertical-scroll-proportion="0.2967033" />
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Downloads/EaselJS_v0_3_2/examples/cache.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="32" selection-start="1464" selection-end="1465" vertical-scroll-proportion="0.36734694">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/Enemy.js">
+    <entry file="file://$PROJECT_DIR$/js/easeljs/display/Container.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="42" selection-start="570" selection-end="570" vertical-scroll-proportion="-19.038462">
+        <state line="160" column="20" selection-start="6125" selection-end="6125" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="86" selection-start="881" selection-end="881" vertical-scroll-proportion="0.27075812">
+        <state line="34" column="35" selection-start="1812" selection-end="1812" vertical-scroll-proportion="-5.75">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/Enemy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="47" selection-start="1138" selection-end="1138" vertical-scroll-proportion="0.60471976">
           <folding />
         </state>
       </provider>

@@ -7,6 +7,8 @@
     }
 
     var p = Enemy.prototype = new Container();
+	var g = new Graphics()
+
 
     //static props
     Enemy.SPEED = 2;
@@ -15,9 +17,10 @@
     p.speed;
     p.vX;
     p.vY;
-    
-    p.img;
+
     p.active;
+    
+    p.snapToPixel = true;
     
     //constructor
     p.Enemy_init = p.initialize;	//unique to avoid overiding base class
@@ -29,14 +32,35 @@
 		this.activate(enemyImage);
 	}
 
-    p.activate = function(enemyImage)
+    p.activate = function(spriteSheet)
     {
-        this.img = new Bitmap(enemyImage);
-        this.addChild(this.img);
+	
+		// create a simple SpriteSheet with a frame size of 80x80 and no frameData:	
+//		this.spriteSheet  = new SpriteSheet(enemyImage, 50, 100);
+		
+		// create a BitmapSequence to display frames from the sprite sheet:
+        this.bmpSeq = new BitmapSequence(spriteSheet);
+		this.bmpSeq.gotoAndPlay(1)
+        this.addChild(this.bmpSeq);
 
         this.x      =   canvas.width * Math.random();
+        this.y      =   0;
+        this.active = true;
     }
 
+
+	//handle what a enemy does to itself every frame
+	p.tick = function() {
+		this.rotation += Math.random()*5 - 2.5 ;//this.spin;
+		this.x += Math.random()*5 - 2.5 ;//this.vX;
+		this.y += 5;//this.vY;
+
+        if ( this.y > 400 ) {
+            killEnemy( this );
+        }
+	}
+
+	
     /*
 var p = Enemy.prototype = new Shape();
 
@@ -171,3 +195,4 @@ var p = Enemy.prototype = new Shape();
 
 window.Enemy = Enemy;
 }(window));
+// JavaScript Document
