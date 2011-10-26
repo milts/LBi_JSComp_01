@@ -65,7 +65,16 @@
             scoreField.x = canvas.width - 10;
             scoreField.y = 22;
 
+            initFPS();
             initImages();
+        }
+        
+        function initFPS()
+        {
+            // add a text object to output the current FPS:
+            fpsLabel = new Text("-- fps","bold 14px Arial","#FFF");
+            fpsLabel.x = 10;
+            fpsLabel.y = 20;
         }
 
         function initImages()
@@ -77,6 +86,10 @@
 
             });
         }
+
+
+
+
 
         function watchRestart()
         {
@@ -103,6 +116,8 @@
             stage.removeAllChildren();
             scoreField.text = (0).toString();
             stage.addChild(scoreField);
+
+            stage.addChild(fpsLabel);
 
             //create new arrays
             enemyArray =   new Array();
@@ -135,6 +150,8 @@
             } else {
                 nextEnemy--;
             }
+
+        	fpsLabel.text = Math.round(Ticker.getMeasuredFPS())+" fps";
 
             stage.update();
         }
