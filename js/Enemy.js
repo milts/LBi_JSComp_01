@@ -1,13 +1,11 @@
 (function(window) {
 
 //
-    function Enemy(enemyImage)
-    {
+    function Enemy(enemyImage)    {
         this.initialize(enemyImage);
     }
 
     var p = Enemy.prototype = new Container();
-	var g = new Graphics()
 
 
     //static props
@@ -25,15 +23,13 @@
     //constructor
     p.Enemy_init = p.initialize;	//unique to avoid overiding base class
 
-	p.initialize = function(enemyImage)
-    {
+	p.initialize = function(enemyImage)    {
 		this.Enemy_init(); // super call
 
 		this.activate(enemyImage);
 	}
 
-    p.activate = function(spriteSheet)
-    {
+    p.activate = function(spriteSheet)    {
 	
 		// create a simple SpriteSheet with a frame size of 80x80 and no frameData:	
 //		this.spriteSheet  = new SpriteSheet(enemyImage, 50, 100);
@@ -43,15 +39,15 @@
 		this.bmpSeq.gotoAndPlay(1)
         this.addChild(this.bmpSeq);
 
-        this.x      =   canvas.width * Math.random();
-        this.y      =   0;
+        this.x      =  ( canvas.width - ENEMY_WIDTH ) * Math.random();
+        this.y      =   - ENEMY_HEIGHT;
         this.active = true;
     }
 
 
 	//handle what a enemy does to itself every frame
 	p.tick = function() {
-		this.rotation += Math.random()*5 - 2.5 ;//this.spin;
+		//this.rotation += Math.random()*5 - 2.5 ;//this.spin;
 		this.x += Math.random()*5 - 2.5 ;//this.vX;
 		this.y += 5;//this.vY;
 

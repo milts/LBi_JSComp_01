@@ -28,12 +28,13 @@
     <!-- http://www.jetbrains.com/webstorm/ -->
 
     <script type="text/javascript" src="js/Enemy.js"></script>
+    <script type="text/javascript" src="js/Rocket.js"></script>
 
     <script type="text/javascript">
 
 
-        var TIME_TO_NEXT_ENEMY = 25;
-        var DIFFICULTY = 0.95;
+        var TIME_TO_NEXT_ENEMY = 15;
+        var DIFFICULTY = 0.99;
 
         var currentFrame = 0;
 
@@ -43,14 +44,28 @@
         var enemyImage;
         var enemySpriteSheet;
 
+        var rocketImage;
+        var rocketSpriteSheet;
+
+        var score;
         var scoreField;
 
-        var enemyArray;
-        var bulletArray;
+        var enemyArray = [];
+        var rocketArray = [];
 
         var isAlive;
 
         var timeToNextEnemy;
+
+        var basex = 300;
+        var basey = 500;
+
+
+        var ENEMY_WIDTH = 68;
+        var ENEMY_HEIGHT = 165;
+        var ROCKET_WIDTH = 33;
+        var ROCKET_HEIGHT = 34;
+        var EXPLOSION_DISTANCE = 35;
 
         //handle keystrokes!
         document.onkeyup      = handleKeyUp;
@@ -59,8 +74,11 @@
         function init() {
             canvas  =   document.getElementById("myCanvas");
             stage   =   new Stage(canvas);
+	        canvas.onclick = handleClick;
 
-            scoreField = new Text("0", "bold 12px Arial", "#FFFFFF");
+            score = 0;
+
+            scoreField = new Text( score, "bold 12px Arial", "#FFFFFF");
             scoreField.textAlign = "right";
             scoreField.x = canvas.width - 10;
             scoreField.y = 22;
@@ -81,40 +99,37 @@
         {
             $(function() {
                 enemyImage = new Image();
-				enemyImage.onload = spriteSheetLoaded;
+				enemyImage.onload = enemySpriteSheetLoaded;
                 enemyImage.src = "img/enemy.png";
+
+                rocketImage = new Image();
+				rocketImage.onload = rocketSpriteSheetLoaded;
+                rocketImage.src = "img/mr-hooly.gif";
 
             });
         }
 
-
-
-
-
-        function watchRestart()
-        {
-            //watch for clicks
-            stage.update(); 	//update the stage to show text
-            canvas.onclick = handleClick;
-        }
-
         function handleClick()
         {
-            canvas.onclick = null;
+            launchRocket( stage.mouseX, stage.mouseY );
+        }
+
+        function enemySpriteSheetLoaded()
+        {
+            enemySpriteSheet = new SpriteSheet( enemyImage, ENEMY_WIDTH, ENEMY_HEIGHT );
             restart();
         }
 
-        function spriteSheetLoaded()
+        function rocketSpriteSheetLoaded()
         {
-            enemySpriteSheet = new SpriteSheet( enemyImage, 100, 100)
-            restart();
+            rocketSpriteSheet = new SpriteSheet( rocketImage, ROCKET_WIDTH, ROCKET_HEIGHT );
         }
 
         function restart()
         {
             //hide objects on stage and add score
             stage.removeAllChildren();
-            scoreField.text = (0).toString();
+            score = 0;
             stage.addChild(scoreField);
 
             stage.addChild(fpsLabel);
@@ -138,6 +153,17 @@
 
         function tick()
         {
+            checkEnemySpawn();
+
+            checkCollisions();
+
+        	fpsLabel.text = Math.round(Ticker.getMeasuredFPS())+" fps";
+            scoreField.text = score;
+
+            stage.update();
+        }
+
+        function checkEnemySpawn() {
             if(nextEnemy <= 0)
             {
                 if(isAlive)
@@ -150,10 +176,39 @@
             } else {
                 nextEnemy--;
             }
+        }
 
-        	fpsLabel.text = Math.round(Ticker.getMeasuredFPS())+" fps";
+        function checkCollisions() {
 
-            stage.update();
+            var i_en;
+            var j_ro;
+            var i;
+            var j;
+
+            var xDist;
+            var yDist;
+
+            for ( i = 0; i < enemyArray.length; i++ ) {
+                i_en = enemyArray [ i ];
+
+                for ( j = 0; j < rocketArray.length; j++ ) {
+                    j_ro = rocketArray[ j ];
+
+//                    xDist = i_en.x + ( i_en.width * 0.5) - ( j_ro.x + ( j_ro.width * 0.5 ) );
+//                    yDist = i_en.y + ( i_en.height * 0.5) - ( j_ro.y + ( j_ro.height * 0.5 ) );
+
+                    xDist = i_en.x + (ENEMY_WIDTH*0.5) - (j_ro.x + (ROCKET_WIDTH*0.5));
+                    yDist = i_en.y + (ENEMY_HEIGHT*0.8) - (j_ro.y + (ROCKET_HEIGHT*0.5));
+
+                    if ( Math.sqrt(  ( xDist * xDist ) + ( yDist * yDist ) ) < EXPLOSION_DISTANCE )  {
+                        killEnemy( i_en );
+                        killRocket( j_ro );
+                        score ++;
+                    }
+                }
+            }
+
+
         }
 
         function getEnemy()
@@ -186,7 +241,7 @@
 //            return enemyArray[i];
         }
 
-        function killEnemy( enemy )
+        function killEnemy( $enemy )
         {
             var i = 0;
             var len = enemyArray.length;
@@ -195,33 +250,54 @@
 
            while(i <= len)
            {
-               if( enemyArray[i] === enemy )
+               if( enemyArray[i] === $enemy )
                {
-                   stage.removeChild( enemy );
-                   enemy.tick = null;
+                   stage.removeChild( $enemy );
+                   $enemy.tick = null;
                    enemyArray.splice(i,1);
                    return;
                }
                i++;
            }
+            alert("no enemy killed");
+
+        }
+
+        function launchRocket( $mx, $my )
+        {
+            var rocket = new Rocket( rocketSpriteSheet );
+            rocket.activate();
+            rocket.target_vx = ( $mx - basex ) / 30;
+            rocket.target_vy = ( $my - basey ) / 30;
+            stage.addChild( rocket );
+            rocketArray[ rocketArray.length ] = rocket;
+
+        }
+
+        function killRocket( $rocket )
+        {
+            var i = 0;
+            var len = rocketArray.length;
+
+            //pooling approach
+
+           while(i <= len)
+           {
+               if( rocketArray[i] === $rocket )
+               {
+                   stage.removeChild( $rocket );
+                   $rocket.tick = null;
+                   rocketArray.splice(i,1);
+                   return;
+               }
+               i++;
+           }
+            alert("no rocket killed");
 
         }
 
 
 
-        <!-- events and such -->
-
-        function handleCanvasClick() {
-            
-        }
-
-        function handleKeyUp() {
-
-        }
-
-        function handleKeyDown() {
-
-        }
 
     </script>
 
